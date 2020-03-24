@@ -1,0 +1,28 @@
+version: '2'
+services:
+    db:
+        image: mysql:5.6
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: brain_training
+            MYSQL_USER: brain_training
+            MYSQL_PASSWORD: brain_training
+    php:
+        build: ./php-fpm
+        expose:
+            - "9000"
+        volumes:
+            - ./application:/var/www/application
+            - ./logs/application:/var/www/application/var/logs
+        links:
+            - db
+    nginx:
+        build: ./nginx
+        ports:
+            - "80:80"
+        links:
+            - php
+        volumes_from:
+            - php
+        volumes:
+            - ./logs/nginx/:/var/log/nginx
