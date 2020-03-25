@@ -21,7 +21,6 @@ class CreateExercisesTable extends Migration
             $table->foreign('course_id')->references('id')->on('courses');
             $table->string('name');
             $table->double('points');
-
         });
     }
 
