@@ -65,7 +65,7 @@ $ docker-compose run php vendor/bin/phpunit
 ```
 
 #### Data Schema:
-- The following image shows the Database schema used in this solution. Score table is removed and denormalized into session table.
+- The following image shows the Database schema used in this solution. Score table is denormalized into sessions table.
 
 ![schema](https://raw.githubusercontent.com/RazaChohan/brain-train-backend/master/schema.png)
 
