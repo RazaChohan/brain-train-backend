@@ -64,12 +64,12 @@ $ docker-compose run php vendor/bin/phpunit
   $ curl -X GET "http://api.braintraining.local/score?token={token}&getLastSessionCategories=true"
 ```
 
-#### 15. Data Schema:
+#### Data Schema:
 - The following image shows the Database schema used in this solution. Score table is removed and denormalized into session table.
 
 ![schema](https://raw.githubusercontent.com/RazaChohan/brain-train-backend/master/schema.png)
 
-Application logs can be found on following locations:
+#### Application logs can be found on following locations:
 ```bash
   logs/nginx
   application/storage/logs
