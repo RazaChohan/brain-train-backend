@@ -54,6 +54,23 @@ class UserRepositoryImpl implements UserRepository {
                             where user_id = $userID
                             GROUP BY date
                             ORDER BY date desc");
+    }
+    /***
+     * Get last session categories
+     *
+     * @param $userID
+     * @return mixed
+     */
+    public function getLastSessionCategories($userID) {
+        //Note: Using raw query as its mentioned in challenge
+        $lastSessionCategories =  DB::selectOne("SELECT group_concat(distinct cat.name SEPARATOR ', ') as categories
+                                                        FROM sessions as sess
+                                                        JOIN exercises as exr ON exr.course_id = sess.course_id
+                                                        JOIN categories as cat ON cat.id = exr.category_id
+                                                        where sess.user_id = $userID
+                                                        GROUP BY sess.id, sess.session_time
+                                                        ORDER BY sess.session_time desc limit 1");
 
+        return empty($lastSessionCategories) ? "" : $lastSessionCategories->categories;
     }
 }

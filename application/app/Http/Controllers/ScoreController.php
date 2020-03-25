@@ -46,12 +46,16 @@ class ScoreController extends Controller
         $response = [];
         $responseCode = null;
         try {
+            $getLastSessionCategories = $this->request->get('getLastSessionCategories', 'false');
             //Check if request body is correct
             $userScoreHistory = $this->userRepository->getUserScoreHistory($this->request->user_id);
             $responseCode = Response::HTTP_OK;
             $response = ['data' => ['history' => $userScoreHistory]];
-        } catch
-            (Exception $exception) {
+            //Get last session categories is true
+            if($getLastSessionCategories == 'true') {
+                $response['data']['last_session_categories'] = $this->userRepository->getLastSessionCategories($this->request->user_id);
+            }
+        } catch(Exception $exception) {
                 $responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
                 $response = ['error' => 'Something went wrong'];
                 parent::log($exception, AuthController::class);

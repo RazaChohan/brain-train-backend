@@ -20,7 +20,16 @@ interface UserRepository
      * Get user score history
      *
      * @param $userID
+     *
      * @return mixed
      */
     public function getUserScoreHistory($userID);
+
+    /***
+     * Get last session categories
+     *
+     * @param $userID
+     * @return mixed
+     */
+    public function getLastSessionCategories($userID);
 }
