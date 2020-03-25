@@ -19,7 +19,7 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'auth'], function () use ($router) {
     //Authenticate user
     $router->post(
-        '/',
+        '/login',
         [
             'uses' => 'AuthController@authenticate'
         ]

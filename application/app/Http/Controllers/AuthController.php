@@ -47,28 +47,32 @@ class AuthController extends Controller
     {
         $response = [];
         $responseCode = null;
-
         try {
-            $this->validate($this->request, [
-                'username' => 'required',
-                'password' => 'required'
-            ]);
-
-            $user = $this->userRepository->getUserByUserName($this->request->input('username'));
-
-            if (is_null($user)) {
-                $response = ['error' => 'Username does not exist.'];
-                $responseCode = Response::HTTP_UNAUTHORIZED;
-            } elseif (Hash::check($this->request->input('password'), $user->password)) {
-                // Verify the password and generate the token
-                $response = ['token' => $this->jwt($user->id)];
-                $responseCode = Response::HTTP_OK;
+            $userName = $this->request->get('username', '');
+            $password = $this->request->get('password', '');
+            //Check if request body is correct
+            if(empty($userName) || empty($password)) {
+                $responseCode = Response::HTTP_BAD_REQUEST;
+                $response = ['error' => 'Username and password are required'];
             } else {
-                $response = ['error' => 'Username or password is wrong.'];
-                $responseCode = Response::HTTP_UNAUTHORIZED;
+                $user = $this->userRepository->getUserByUserName($userName);
+
+                if (is_null($user)) {
+                    $response = ['error' => 'Username does not exist.'];
+                    $responseCode = Response::HTTP_UNAUTHORIZED;
+                } elseif (Hash::check($password, $user->password)) {
+                    // Verify the password and generate the token
+                    $response = ['token' => $this->jwt($user->id)];
+                    $responseCode = Response::HTTP_OK;
+                } else {
+                    $response = ['error' => 'Username or password is wrong.'];
+                    $responseCode = Response::HTTP_UNAUTHORIZED;
+                }
             }
+
         } catch (Exception $exception) {
             $responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
+            $response = ['error' => 'Something went wrong'];
             parent::log($exception, AuthController::class);
         }
         // send response
@@ -81,7 +85,7 @@ class AuthController extends Controller
      * @param integer $userID
      * @return string
      */
-    protected function jwt(int $userID): string
+    protected function jwt($userID)
     {
         $payload = [
             'iss' => "lumen-jwt", // Issuer of the token
