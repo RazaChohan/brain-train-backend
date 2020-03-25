@@ -15,4 +15,12 @@ interface UserRepository
      * @return User|null
      */
     public function getUserByUsername($username);
+
+    /****
+     * Get user score history
+     *
+     * @param $userID
+     * @return mixed
+     */
+    public function getUserScoreHistory($userID);
 }

@@ -58,9 +58,8 @@ class AuthMiddleware
                 'error' => 'Invalid token.'
             ], Response::HTTP_BAD_REQUEST);
         }
-        $user = $this->userRepository->getUserByID($credentials->sub);
-        // Put the user in the request class
-        $request->auth = $user;
+        $userID = $credentials->sub;
+        $request->user_id = $userID;
         return $next($request);
     }
 }

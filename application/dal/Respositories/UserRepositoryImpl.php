@@ -41,4 +41,19 @@ class UserRepositoryImpl implements UserRepository {
     public function getUserByUsername($username) {
         return $this->eloquentEntity->where('username', '=', $username)->first();
     }
+    /****
+     * Get user score history
+     *
+     * @param $userID
+     * @return mixed
+     */
+    public function getUserScoreHistory($userID) {
+        //Note: Using raw query as its mentioned in challenge
+        return DB::select("SELECT sum(score) as score, date(session_time) as date
+                            FROM sessions
+                            where user_id = $userID
+                            GROUP BY date
+                            ORDER BY date desc");
+
+    }
 }

@@ -26,3 +26,19 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
     );
 });
 
+//Auth Middleware Group
+$router->group(['middleware' => 'auth'], function () use ($router) {
+
+    //Score Controller group
+    $router->group(['prefix' => 'score'], function () use ($router) {
+        //get user
+        $router->get(
+            '/',
+            [
+                'uses' => 'ScoreController@getScore'
+            ]
+        );
+    });
+
+});
+
