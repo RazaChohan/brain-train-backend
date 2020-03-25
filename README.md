@@ -59,9 +59,9 @@ $ docker-compose run php vendor/bin/phpunit
  $ curl -X GET "http://api.braintraining.local/score?token={token}"
 ```
 
-#### 10. Get user call:
+#### 10. Get history of scores with latest session categories call:
 ```bash
- $ curl -X GET "http://user_products.localhost/user?token={token}"
+  $ curl -X GET "http://api.braintraining.local/score?token={token}&getLastSessionCategories=true"
 ```
 
 #### 15. Data Schema:
